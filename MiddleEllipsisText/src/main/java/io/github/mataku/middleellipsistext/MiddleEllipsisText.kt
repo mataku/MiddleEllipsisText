@@ -3,6 +3,7 @@ package io.github.mataku.middleellipsistext
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.SubcomposeLayout
@@ -60,49 +61,50 @@ fun MiddleEllipsisText(
 
     textLayoutResult ?: return@SubcomposeLayout layout(0, 0) {}
 
-    val combinedText =
-      if (textLayoutResult!!.getBoundingBox(text.lastIndex).right <= constraints.maxWidth) {
-        text
-      } else {
-        val textWidth = textLayoutResult!!.getBoundingBox(text.lastIndex + 1).width
-        val ellipsisTextWidth: Float = textWidth * ellipsisCharCount
-        val remainingWidth = constraints.maxWidth - ellipsisTextWidth
-        val textFromStart = mutableListOf<Char>()
-        val textFromEnd = mutableListOf<Char>()
-        var leftPoint = 0
-        var rightPoint = 0
-        var leftTextWidth = 0F
-        var rightTextWidth = 0F
+    val placeable = subcompose("MiddleEllipsisText_apply") {
+      val combinedText = remember(text, ellipsisText, textLayoutResult) {
+        if (textLayoutResult!!.getBoundingBox(text.lastIndex).right <= constraints.maxWidth) {
+          text
+        } else {
+          val textWidth = textLayoutResult!!.getBoundingBox(text.lastIndex + 1).width
+          val ellipsisTextWidth: Float = textWidth * ellipsisCharCount
+          val remainingWidth = constraints.maxWidth - ellipsisTextWidth
+          val textFromStart = mutableListOf<Char>()
+          val textFromEnd = mutableListOf<Char>()
+          var leftPoint = 0
+          var rightPoint = 0
+          var leftTextWidth = 0F
+          var rightTextWidth = 0F
 
-        kotlin.run {
-          repeat(text.lastIndex) {
-            val leftPosition = leftPoint
-            val rightPosition = text.lastIndex - rightPoint
-            val leftTextBoundingBox = textLayoutResult!!.getBoundingBox(leftPosition)
-            val rightTextBoundingBox = textLayoutResult!!.getBoundingBox(rightPosition)
+          kotlin.run {
+            repeat(text.lastIndex) {
+              val leftPosition = leftPoint
+              val rightPosition = text.lastIndex - rightPoint
+              val leftTextBoundingBox = textLayoutResult!!.getBoundingBox(leftPosition)
+              val rightTextBoundingBox = textLayoutResult!!.getBoundingBox(rightPosition)
 
-            // For multibyte string handling
-            if (leftTextWidth <= rightTextWidth && leftTextWidth + leftTextBoundingBox.width + rightTextWidth <= remainingWidth) {
-              val leftChar = text[leftPosition]
-              textFromStart.add(leftChar)
-              leftTextWidth += leftTextBoundingBox.width
-              leftPoint += 1
-            } else if (leftTextWidth >= rightTextWidth && leftTextWidth + rightTextWidth + rightTextBoundingBox.width <= remainingWidth) {
-              val rightChar = text[rightPosition]
-              textFromEnd.add(rightChar)
-              rightTextWidth += rightTextBoundingBox.width
-              rightPoint += 1
-            } else {
-              return@run
+              // For multibyte string handling
+              if (leftTextWidth <= rightTextWidth && leftTextWidth + leftTextBoundingBox.width + rightTextWidth <= remainingWidth) {
+                val leftChar = text[leftPosition]
+                textFromStart.add(leftChar)
+                leftTextWidth += leftTextBoundingBox.width
+                leftPoint += 1
+              } else if (leftTextWidth >= rightTextWidth && leftTextWidth + rightTextWidth + rightTextBoundingBox.width <= remainingWidth) {
+                val rightChar = text[rightPosition]
+                textFromEnd.add(rightChar)
+                rightTextWidth += rightTextBoundingBox.width
+                rightPoint += 1
+              } else {
+                return@run
+              }
             }
           }
+          textFromStart.joinToString(separator = "") + ellipsisText + textFromEnd.reversed()
+            .joinToString(
+              separator = ""
+            )
         }
-        textFromStart.joinToString(separator = "") + ellipsisText + textFromEnd.reversed()
-          .joinToString(
-            separator = ""
-          )
       }
-    val placeable = subcompose("MiddleEllipsisText_apply") {
       Text(
         text = combinedText,
         color = color,
