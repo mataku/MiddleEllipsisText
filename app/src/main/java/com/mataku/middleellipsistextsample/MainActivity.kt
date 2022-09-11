@@ -56,7 +56,7 @@ private fun MainContent() {
 
     Spacer(modifier = Modifier.height(32.dp))
 
-    Text(text = "Demo with not ellipsis", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+    Text(text = "Demo with short text", fontSize = 24.sp, fontWeight = FontWeight.Bold)
 
     MiddleEllipsisText(
       text = "sooooooooooツツツツツツ",
