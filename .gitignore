@@ -1,0 +1,68 @@
+# Built application files
+build/
+*.apks
+
+# Crashlytics configuations
+com_crashlytics_export_strings.xml
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Gradle generated files
+.gradle/
+
+# Signing files
+.signing/
+
+# User-specific configurations
+.idea/libraries/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+.idea/caches/
+.idea/assetWizardSettings.xml
+.idea/modules.xml
+.idea/gradle.xml
+.idea/kotlinScripting.xml
+.idea/jarRepositories.xml
+.idea/dictionaries/
+!.idea/codeStyles/
+.idea/inspectionProfiles/
+
+*.iml
+.env
+
+# Keystore files
+*.jks
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# bundler
+vendor/
+.bundle
+
+# direnv
+.envrc
+
+# others
+*.p12
+app/*.json
+.mainframer/config
+mainframer.sh
+fastlane/report.xml
+fastlane/README.md
+google-services.json
