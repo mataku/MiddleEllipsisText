@@ -75,7 +75,7 @@ afterEvaluate {
           licenses {
             license {
               name.set("Apache License 2.0")
-              url.set("https://github.com/mataku/MiddleEllipsisText/blob/develop/LICENSE")
+              url.set("https://github.com/mataku/MiddleEllipsisText/blob/develop/license/LICENSE.txt")
             }
           }
           developers {
