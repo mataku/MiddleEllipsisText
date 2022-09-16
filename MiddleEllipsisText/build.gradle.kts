@@ -2,6 +2,7 @@ plugins {
   id("com.android.library")
   id("org.jetbrains.kotlin.android")
   id("maven-publish")
+  signing
 }
 
 android {
@@ -52,6 +53,15 @@ artifacts {
   archives(androidSourcesJar)
 }
 
+signing {
+  useInMemoryPgpKeys(
+    rootProject.extra["signing.keyId"] as String,
+    rootProject.extra["signing.key"] as String,
+    rootProject.extra["signing.password"] as String,
+  )
+  sign(publishing.publications)
+}
+
 val libName = "middle-ellipsis-text"
 
 afterEvaluate {
@@ -71,7 +81,7 @@ afterEvaluate {
           name.set(libName)
           description.set("Jetpack Compose Component with ellipsis in the middle of text")
           url.set("https://github.com/mataku/MiddleEllipsisText")
-          
+
           licenses {
             license {
               name.set("Apache License 2.0")
