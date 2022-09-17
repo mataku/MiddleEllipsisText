@@ -8,7 +8,7 @@ comes to support Text-overflow middle cropping, this library will be deprecated.
 ## Installation
 
 ```kotlin
-// settings.gradle.kts
+// settings.gradle(.kts)
 pluginManagement {
   repositories {
     // ...
@@ -16,7 +16,7 @@ pluginManagement {
   }
 }
 
-// {module}/build.gradle
+// {module}/build.gradle(.kts)
 implementation "io.github.mataku:middle-ellipsis-text:${latestVersion}"
 ```
 
