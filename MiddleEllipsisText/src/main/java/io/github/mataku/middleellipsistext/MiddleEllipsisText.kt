@@ -36,95 +36,112 @@ fun MiddleEllipsisText(
   ellipsisChar: Char = '.',
   ellipsisCharCount: Int = 3
 ) {
+  if (text.isEmpty()) {
+    Text(
+      text = text + ellipsisChar,
+      color = color,
+      fontSize = fontSize,
+      fontStyle = fontStyle,
+      fontWeight = fontWeight,
+      fontFamily = fontFamily,
+      letterSpacing = letterSpacing,
+      textDecoration = textDecoration,
+      textAlign = textAlign,
+      lineHeight = lineHeight,
+      softWrap = softWrap,
+      onTextLayout = onTextLayout,
+      style = style
+    )
+  } else {
+    var textLayoutResult: TextLayoutResult? = null
+    val ellipsisText = ellipsisChar.toString().repeat(ellipsisCharCount)
 
-  var textLayoutResult: TextLayoutResult? = null
-  val ellipsisText = ellipsisChar.toString().repeat(ellipsisCharCount)
+    SubcomposeLayout(modifier) { constraints ->
+      subcompose("MiddleEllipsisText_calculate") {
+        Text(
+          text = text + ellipsisChar,
+          color = color,
+          fontSize = fontSize,
+          fontStyle = fontStyle,
+          fontWeight = fontWeight,
+          fontFamily = fontFamily,
+          letterSpacing = letterSpacing,
+          textDecoration = textDecoration,
+          textAlign = textAlign,
+          lineHeight = lineHeight,
+          softWrap = softWrap,
+          onTextLayout = { textLayoutResult = it },
+          style = style
+        )
+      }[0].measure(Constraints())
 
-  SubcomposeLayout(modifier) { constraints ->
-    subcompose("MiddleEllipsisText_calculate") {
-      Text(
-        text = text + ellipsisChar,
-        color = color,
-        fontSize = fontSize,
-        fontStyle = fontStyle,
-        fontWeight = fontWeight,
-        fontFamily = fontFamily,
-        letterSpacing = letterSpacing,
-        textDecoration = textDecoration,
-        textAlign = textAlign,
-        lineHeight = lineHeight,
-        softWrap = softWrap,
-        onTextLayout = { textLayoutResult = it },
-        style = style
-      )
-    }[0].measure(Constraints())
+      textLayoutResult ?: return@SubcomposeLayout layout(0, 0) {}
 
-    textLayoutResult ?: return@SubcomposeLayout layout(0, 0) {}
+      val placeable = subcompose("MiddleEllipsisText_apply") {
+        val combinedText = remember(text, ellipsisText, textLayoutResult) {
+          if (textLayoutResult!!.getBoundingBox(text.lastIndex).right <= constraints.maxWidth) {
+            text
+          } else {
+            val textWidth = textLayoutResult!!.getBoundingBox(text.lastIndex + 1).width
+            val ellipsisTextWidth: Float = textWidth * ellipsisCharCount
+            val remainingWidth = constraints.maxWidth - ellipsisTextWidth
+            val textFromStart = mutableListOf<Char>()
+            val textFromEnd = mutableListOf<Char>()
+            var leftPoint = 0
+            var rightPoint = 0
+            var leftTextWidth = 0F
+            var rightTextWidth = 0F
 
-    val placeable = subcompose("MiddleEllipsisText_apply") {
-      val combinedText = remember(text, ellipsisText, textLayoutResult) {
-        if (textLayoutResult!!.getBoundingBox(text.lastIndex).right <= constraints.maxWidth) {
-          text
-        } else {
-          val textWidth = textLayoutResult!!.getBoundingBox(text.lastIndex + 1).width
-          val ellipsisTextWidth: Float = textWidth * ellipsisCharCount
-          val remainingWidth = constraints.maxWidth - ellipsisTextWidth
-          val textFromStart = mutableListOf<Char>()
-          val textFromEnd = mutableListOf<Char>()
-          var leftPoint = 0
-          var rightPoint = 0
-          var leftTextWidth = 0F
-          var rightTextWidth = 0F
+            kotlin.run {
+              repeat(text.lastIndex) {
+                val leftPosition = leftPoint
+                val rightPosition = text.lastIndex - rightPoint
+                val leftTextBoundingBox = textLayoutResult!!.getBoundingBox(leftPosition)
+                val rightTextBoundingBox = textLayoutResult!!.getBoundingBox(rightPosition)
 
-          kotlin.run {
-            repeat(text.lastIndex) {
-              val leftPosition = leftPoint
-              val rightPosition = text.lastIndex - rightPoint
-              val leftTextBoundingBox = textLayoutResult!!.getBoundingBox(leftPosition)
-              val rightTextBoundingBox = textLayoutResult!!.getBoundingBox(rightPosition)
-
-              // For multibyte string handling
-              if (leftTextWidth <= rightTextWidth && leftTextWidth + leftTextBoundingBox.width + rightTextWidth <= remainingWidth) {
-                val leftChar = text[leftPosition]
-                textFromStart.add(leftChar)
-                leftTextWidth += leftTextBoundingBox.width
-                leftPoint += 1
-              } else if (leftTextWidth >= rightTextWidth && leftTextWidth + rightTextWidth + rightTextBoundingBox.width <= remainingWidth) {
-                val rightChar = text[rightPosition]
-                textFromEnd.add(rightChar)
-                rightTextWidth += rightTextBoundingBox.width
-                rightPoint += 1
-              } else {
-                return@run
+                // For multibyte string handling
+                if (leftTextWidth <= rightTextWidth && leftTextWidth + leftTextBoundingBox.width + rightTextWidth <= remainingWidth) {
+                  val leftChar = text[leftPosition]
+                  textFromStart.add(leftChar)
+                  leftTextWidth += leftTextBoundingBox.width
+                  leftPoint += 1
+                } else if (leftTextWidth >= rightTextWidth && leftTextWidth + rightTextWidth + rightTextBoundingBox.width <= remainingWidth) {
+                  val rightChar = text[rightPosition]
+                  textFromEnd.add(rightChar)
+                  rightTextWidth += rightTextBoundingBox.width
+                  rightPoint += 1
+                } else {
+                  return@run
+                }
               }
             }
+            textFromStart.joinToString(separator = "") + ellipsisText + textFromEnd.reversed()
+              .joinToString(
+                separator = ""
+              )
           }
-          textFromStart.joinToString(separator = "") + ellipsisText + textFromEnd.reversed()
-            .joinToString(
-              separator = ""
-            )
         }
-      }
-      Text(
-        text = combinedText,
-        color = color,
-        fontSize = fontSize,
-        fontStyle = fontStyle,
-        fontWeight = fontWeight,
-        fontFamily = fontFamily,
-        letterSpacing = letterSpacing,
-        textDecoration = textDecoration,
-        textAlign = textAlign,
-        lineHeight = lineHeight,
-        softWrap = softWrap,
-        maxLines = 1,
-        onTextLayout = onTextLayout,
-        style = style
-      )
-    }[0].measure(constraints)
+        Text(
+          text = combinedText,
+          color = color,
+          fontSize = fontSize,
+          fontStyle = fontStyle,
+          fontWeight = fontWeight,
+          fontFamily = fontFamily,
+          letterSpacing = letterSpacing,
+          textDecoration = textDecoration,
+          textAlign = textAlign,
+          lineHeight = lineHeight,
+          softWrap = softWrap,
+          maxLines = 1,
+          onTextLayout = onTextLayout,
+          style = style
+        )
+      }[0].measure(constraints)
 
-    layout(placeable.width, placeable.height) {
-      placeable.place(0, 0)
+      layout(placeable.width, placeable.height) {
+        placeable.place(0, 0)
+      }
     }
   }
 }

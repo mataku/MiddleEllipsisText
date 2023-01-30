@@ -41,6 +41,12 @@ private fun MainContent() {
     Spacer(modifier = Modifier.height(8.dp))
 
     MiddleEllipsisText(
+      text = "",
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    MiddleEllipsisText(
       text = "soooooooooooooooooooooooloooooooooooooooooooongtext",
     )
 
