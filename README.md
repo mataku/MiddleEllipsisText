@@ -37,3 +37,7 @@ details: https://github.com/mataku/MiddleEllipsisText/blob/develop/MiddleEllipsi
 ## Screenshot
 
 <img src="./screenshot/demo.png" width=360 />
+
+## TODO
+
+emoji with code point greater than or equal to 2 like country flag: 🇧🇪
