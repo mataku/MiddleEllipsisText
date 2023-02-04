@@ -25,7 +25,7 @@ jobs:
       uses: android-actions/setup-android@v2
     - name: Run layout tests
       run: |
-        ./gradlew pixel5DebugAndroidTest
+        ./gradlew pixel5DebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
       env:
         OSSRH_USERNAME: username
         OSSRH_PASSWORD: password
