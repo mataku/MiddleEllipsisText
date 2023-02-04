@@ -40,7 +40,7 @@ android {
     managedDevices {
       devices.create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel5Api31") {
         device = "Pixel 5"
-        apiLevel = 33
+        apiLevel = 31
         systemImageSource = "aosp"
       }
     }
