@@ -37,13 +37,6 @@ private fun MainContent() {
     modifier = Modifier.fillMaxSize()
   ) {
     Text(text = "Demo", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    MiddleEllipsisText(
-      text = "",
-    )
-
     Spacer(modifier = Modifier.height(8.dp))
 
     MiddleEllipsisText(
