@@ -6,10 +6,10 @@ plugins {
 }
 
 android {
-  compileSdk = 32
+  compileSdk = 33
 
   defaultConfig {
-    minSdk = 23
+    minSdk = 24
     targetSdk = 32
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -35,6 +35,16 @@ android {
   composeOptions {
     kotlinCompilerExtensionVersion = "1.3.0"
   }
+  testOptions {
+    unitTests.isIncludeAndroidResources = true
+    managedDevices {
+      devices.create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api31") {
+        device = "Pixel 4"
+        apiLevel = 31
+        systemImageSource = "aosp"
+      }
+    }
+  }
 }
 
 dependencies {
@@ -42,6 +52,9 @@ dependencies {
   implementation("androidx.compose.runtime:runtime:1.2.1")
   implementation("androidx.compose.foundation:foundation:1.2.1")
   implementation("androidx.compose.material:material:1.2.1")
+
+  androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.1")
+  debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
 }
 
 val androidSourcesJar = tasks.register<Jar>("androidSourcesJar") {

@@ -37,13 +37,6 @@ private fun MainContent() {
     modifier = Modifier.fillMaxSize()
   ) {
     Text(text = "Demo", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    MiddleEllipsisText(
-      text = "",
-    )
-
     Spacer(modifier = Modifier.height(8.dp))
 
     MiddleEllipsisText(
@@ -68,6 +61,23 @@ private fun MainContent() {
       text = "sooooooooooツツツツツツ",
     )
 
+    Spacer(modifier = Modifier.height(32.dp))
+
+    Text(text = "Demo with emoji", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
+    val emojis2 = "\uD83D\uDE00".repeat(20)
+
+    MiddleEllipsisText(
+      text = emojis2,
+    )
+    // TODO
+//    Spacer(modifier = Modifier.height(32.dp))
+//    Text(text = "Demo with special emoji", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+//
+//    val emojis = "\uD83C\uDDE7\uD83C\uDDEB".repeat(20)
+//    MiddleEllipsisText(
+//      text = emojis,
+//    )
   }
 }
 
