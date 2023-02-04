@@ -38,10 +38,10 @@ android {
   testOptions {
     unitTests.isIncludeAndroidResources = true
     managedDevices {
-      devices.create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel5") {
+      devices.create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel5Api31") {
         device = "Pixel 5"
         apiLevel = 33
-        systemImageSource = "google"
+        systemImageSource = "aosp"
       }
     }
   }
