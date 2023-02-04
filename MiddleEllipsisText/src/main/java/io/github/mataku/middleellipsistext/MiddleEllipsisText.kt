@@ -118,7 +118,6 @@ fun MiddleEllipsisText(
                   leftPoint += leftChar.length
                   mappedLeftIndex += 1
                 } else if (leftTextWidth >= rightTextWidth && leftTextWidth + rightTextWidth + rightTextBoundingBox.width <= remainingWidth) {
-                  val width = rightTextBoundingBox.width
                   val rightChar = mappedStrings[mappedRightIndex]
                   textFromEnd.add(0, rightChar)
                   rightTextWidth += rightTextBoundingBox.width
