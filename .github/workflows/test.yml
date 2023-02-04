@@ -32,6 +32,9 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
+      - name: Cleanup Android Emulator env
+        run: |
+          ./gradlew cleanManagedDevices --unused-only
       - name: Run layout tests
         run: |
           ./gradlew pixel5Api31DebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
