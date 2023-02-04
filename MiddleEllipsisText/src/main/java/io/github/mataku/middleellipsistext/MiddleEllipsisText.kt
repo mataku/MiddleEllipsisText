@@ -39,7 +39,7 @@ fun MiddleEllipsisText(
 ) {
   if (text.isEmpty()) {
     Text(
-      text = text + ellipsisChar,
+      text = text,
       color = color,
       fontSize = fontSize,
       fontStyle = fontStyle,
