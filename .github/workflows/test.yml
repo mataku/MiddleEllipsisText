@@ -1,4 +1,4 @@
-name: Build and test
+name: Intrumentation test
 
 on:
   pull_request:
