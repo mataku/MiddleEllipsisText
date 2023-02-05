@@ -1,4 +1,5 @@
 [versions]
+android-gradle-plugin = "7.4.0"
 compose = "2022.11.00"
 compose-kotlin-compiler-extension = "1.3.1"
 kotlin = "1.7.10"
@@ -13,3 +14,5 @@ compose-material = { module = "androidx.compose.material:material" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.3.3" }
 
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
