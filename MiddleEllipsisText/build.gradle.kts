@@ -42,7 +42,6 @@ signing {
   useInMemoryPgpKeys(
     rootProject.extra["signing.keyId"] as String,
     rootProject.extra["signing.key"] as String,
-    rootProject.extra["signing.password"] as String,
   )
   sign(publishing.publications)
 }
