@@ -33,7 +33,7 @@ android {
     compose = true
   }
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.3.0"
+    kotlinCompilerExtensionVersion = libs.versions.compose.kotlin.compiler.extension.get()
   }
   testOptions {
     unitTests.isIncludeAndroidResources = true
@@ -48,13 +48,14 @@ android {
 }
 
 dependencies {
-  implementation("androidx.compose.ui:ui:1.2.1")
-  implementation("androidx.compose.runtime:runtime:1.2.1")
-  implementation("androidx.compose.foundation:foundation:1.2.1")
-  implementation("androidx.compose.material:material:1.2.1")
+  implementation(platform(libs.compose.bom))
+  implementation(libs.compose.ui)
+  implementation(libs.compose.runtime)
+  implementation(libs.compose.foundation)
+  implementation(libs.compose.material)
 
-  androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.1")
-  debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+  androidTestImplementation(libs.compose.ui.test.junit4)
+  debugImplementation(libs.compose.ui.test.manifest)
 }
 
 val androidSourcesJar = tasks.register<Jar>("androidSourcesJar") {

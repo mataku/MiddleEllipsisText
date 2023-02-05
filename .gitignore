@@ -36,6 +36,7 @@ local.properties
 !.idea/codeStyles/
 .idea/inspectionProfiles/
 .idea/androidTestResultsUserPreferences.xml
+.idea/kotlinc.xml
 
 *.iml
 .env
