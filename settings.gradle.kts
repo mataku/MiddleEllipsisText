@@ -1,8 +1,9 @@
 pluginManagement {
+  includeBuild("build-logic")
   repositories {
-    gradlePluginPortal()
     google()
     mavenCentral()
+    gradlePluginPortal()
   }
 }
 dependencyResolutionManagement {
@@ -13,5 +14,5 @@ dependencyResolutionManagement {
   }
 }
 rootProject.name = "MiddleEllipsisText"
-include ':app'
-include ':MiddleEllipsisText'
+include(":app")
+include(":MiddleEllipsisText")
