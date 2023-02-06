@@ -1,44 +1,15 @@
 plugins {
-  id("com.android.library")
-  id("org.jetbrains.kotlin.android")
+  id("middleellipsistext.android.library")
+  id("middleellipsistext.android.compose")
+  id("middleellipsistext.android.test")
   id("maven-publish")
   signing
 }
 
 android {
-  compileSdk = 33
-
-  defaultConfig {
-    minSdk = 24
-    targetSdk = 32
-
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    consumerProguardFile("consumer-rules.pro")
-  }
-
-  buildTypes {
-    release {
-      isMinifyEnabled = false
-      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-    }
-  }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-  }
-  kotlinOptions {
-    jvmTarget = "1.8"
-  }
-  buildFeatures {
-    compose = true
-  }
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.3.0"
-  }
   testOptions {
-    unitTests.isIncludeAndroidResources = true
     managedDevices {
-      devices.create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api31") {
+      devices.maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api31").apply {
         device = "Pixel 4"
         apiLevel = 31
         systemImageSource = "aosp"
@@ -48,13 +19,14 @@ android {
 }
 
 dependencies {
-  implementation("androidx.compose.ui:ui:1.2.1")
-  implementation("androidx.compose.runtime:runtime:1.2.1")
-  implementation("androidx.compose.foundation:foundation:1.2.1")
-  implementation("androidx.compose.material:material:1.2.1")
+  implementation(platform(libs.compose.bom))
+  implementation(libs.compose.ui)
+  implementation(libs.compose.runtime)
+  implementation(libs.compose.foundation)
+  implementation(libs.compose.material)
 
-  androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.1")
-  debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+  androidTestImplementation(libs.compose.ui.test.junit4)
+  debugImplementation(libs.compose.ui.test.manifest)
 }
 
 val androidSourcesJar = tasks.register<Jar>("androidSourcesJar") {
@@ -70,7 +42,6 @@ signing {
   useInMemoryPgpKeys(
     rootProject.extra["signing.keyId"] as String,
     rootProject.extra["signing.key"] as String,
-    rootProject.extra["signing.password"] as String,
   )
   sign(publishing.publications)
 }
