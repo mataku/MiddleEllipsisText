@@ -54,7 +54,7 @@ afterEvaluate {
       create<MavenPublication>("maven") {
         groupId = "io.github.mataku"
         artifactId = libName
-        version = "0.0.2"
+        version = "0.0.3"
         if (project.plugins.hasPlugin("com.android.library")) {
           from(components["release"])
         } else {
