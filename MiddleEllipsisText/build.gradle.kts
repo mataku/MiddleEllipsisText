@@ -38,10 +38,13 @@ artifacts {
   archives(androidSourcesJar)
 }
 
+ext["signing.password"] = ""
+
 signing {
   useInMemoryPgpKeys(
     rootProject.extra["signing.keyId"] as String,
     rootProject.extra["signing.key"] as String,
+    "",
   )
   sign(publishing.publications)
 }
