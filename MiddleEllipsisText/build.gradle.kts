@@ -16,6 +16,8 @@ android {
       }
     }
   }
+
+  namespace = "io.github.mataku.middleellipsistext"
 }
 
 dependencies {
