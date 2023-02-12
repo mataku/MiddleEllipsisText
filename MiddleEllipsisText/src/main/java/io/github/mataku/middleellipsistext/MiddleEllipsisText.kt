@@ -120,6 +120,7 @@ fun MiddleEllipsisText(
                     charSplitIndexList[realLeftIndex] - charSplitIndexList[realLeftIndex - 1]
                   }
                   val targetText = mutableListOf<Char>()
+                  // multiple code points handling (e.g. flag emoji)
                   repeat(remainingTargetCodePoints) {
                     targetText.add(text[leftPoint])
                     val leftTextBoundingBoxWidth =
@@ -135,6 +136,7 @@ fun MiddleEllipsisText(
                   val remainingTargetCodePoints =
                     charSplitIndexList[realRightIndex] - charSplitIndexList[realRightIndex - 1]
                   val targetText = mutableListOf<Char>()
+                  // multiple code points handling (e.g. flag emoji)
                   repeat(remainingTargetCodePoints) {
                     targetText.add(0, text[rightPoint])
                     val rightTextBoundingBoxWidth =
