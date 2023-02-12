@@ -5,7 +5,7 @@ import java.io.FileOutputStream
 
 object TestHelper {
   fun saveScreenshot(filename: String, bmp: Bitmap) {
-    if (System.getenv("CI") == "true") {
+    if (System.getenv("CI") != null) {
       return
     }
 
