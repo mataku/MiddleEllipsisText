@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.TextUnit
-import kotlin.streams.toList
+import com.ibm.icu.text.BreakIterator
 
 @Composable
 fun MiddleEllipsisText(
@@ -57,6 +57,13 @@ fun MiddleEllipsisText(
     var textLayoutResult: TextLayoutResult? = null
     val ellipsisText = ellipsisChar.toString().repeat(ellipsisCharCount)
 
+    val breakIterator = BreakIterator.getCharacterInstance()
+    breakIterator.setText(text)
+    val charSplitIndexList = mutableListOf<Int>()
+    while (breakIterator.next() != BreakIterator.DONE) {
+      val index = breakIterator.current()
+      charSplitIndexList.add(index)
+    }
     SubcomposeLayout(modifier) { constraints ->
       subcompose("MiddleEllipsisText_calculate") {
         Text(
@@ -79,55 +86,72 @@ fun MiddleEllipsisText(
       textLayoutResult ?: return@SubcomposeLayout layout(0, 0) {}
 
       val placeable = subcompose("MiddleEllipsisText_apply") {
-        val codePoints = text.codePoints().toList()
-        val mappedStrings = codePoints.map {
-          String(Character.toChars(it))
-        }
         val combinedText = remember(text, ellipsisText, textLayoutResult) {
           if (textLayoutResult!!.getBoundingBox(text.lastIndex).right <= constraints.maxWidth) {
             text
           } else {
-            val textWidth = textLayoutResult!!.getBoundingBox(text.lastIndex + 1).width
-            val ellipsisTextWidth: Float = textWidth * ellipsisCharCount
+            val ellipsisCharWidth = textLayoutResult!!.getBoundingBox(text.lastIndex + 1).width
+            val ellipsisTextWidth: Float = ellipsisCharWidth * ellipsisCharCount
             val remainingWidth = constraints.maxWidth - ellipsisTextWidth
-            val textFromStart = mutableListOf<String>()
-            val textFromEnd = mutableListOf<String>()
             var leftPoint = 0
-            var rightPoint = mappedStrings.last().length - 1
-            var mappedLeftIndex = 0
-            var mappedRightIndex = mappedStrings.lastIndex
+            var rightPoint = text.lastIndex
             var leftTextWidth = 0F
             var rightTextWidth = 0F
+            var realLeftIndex = 0
+            var realRightIndex = charSplitIndexList.lastIndex
+
+            val textFromStart = mutableListOf<Char>()
+            val textFromEnd = mutableListOf<Char>()
 
             kotlin.run {
-              repeat(codePoints.size) {
-                val leftPosition = leftPoint
-                val rightPosition = text.lastIndex - rightPoint
-                val leftTextBoundingBox = textLayoutResult!!.getBoundingBox(leftPosition)
-                val rightTextBoundingBox = textLayoutResult!!.getBoundingBox(rightPosition)
-
-                if (leftPosition >= rightPosition) {
+              repeat(charSplitIndexList.size) {
+                if (leftPoint >= rightPoint) {
                   return@run
                 }
 
+                val leftTextBoundingBox = textLayoutResult!!.getBoundingBox(leftPoint)
+                val rightTextBoundingBox = textLayoutResult!!.getBoundingBox(rightPoint)
+
                 // For multibyte string handling
                 if (leftTextWidth <= rightTextWidth && leftTextWidth + leftTextBoundingBox.width + rightTextWidth <= remainingWidth) {
-                  val leftChar = mappedStrings[mappedLeftIndex]
-                  textFromStart.add(leftChar)
-                  leftTextWidth += leftTextBoundingBox.width
-                  leftPoint += leftChar.length
-                  mappedLeftIndex += 1
+                  val remainingTargetCodePoints = if (realLeftIndex == 0) {
+                    charSplitIndexList[realLeftIndex]
+                  } else {
+                    charSplitIndexList[realLeftIndex] - charSplitIndexList[realLeftIndex - 1]
+                  }
+                  val targetText = mutableListOf<Char>()
+                  repeat(remainingTargetCodePoints) {
+                    targetText.add(text[leftPoint])
+                    val leftTextBoundingBoxWidth =
+                      textLayoutResult!!.getBoundingBox(leftPoint).width
+                    leftTextWidth += leftTextBoundingBoxWidth
+                    leftPoint += 1
+                  }
+                  if (leftTextWidth + rightTextWidth <= remainingWidth) {
+                    textFromStart.addAll(targetText)
+                    realLeftIndex += 1
+                  }
                 } else if (leftTextWidth >= rightTextWidth && leftTextWidth + rightTextWidth + rightTextBoundingBox.width <= remainingWidth) {
-                  val rightChar = mappedStrings[mappedRightIndex]
-                  textFromEnd.add(0, rightChar)
-                  rightTextWidth += rightTextBoundingBox.width
-                  rightPoint += rightChar.length
-                  mappedRightIndex -= 1
+                  val remainingTargetCodePoints =
+                    charSplitIndexList[realRightIndex] - charSplitIndexList[realRightIndex - 1]
+                  val targetText = mutableListOf<Char>()
+                  repeat(remainingTargetCodePoints) {
+                    targetText.add(0, text[rightPoint])
+                    val rightTextBoundingBoxWidth =
+                      textLayoutResult!!.getBoundingBox(rightPoint).width
+                    rightTextWidth += rightTextBoundingBoxWidth
+                    rightPoint -= 1
+                  }
+                  if (leftTextWidth + rightTextWidth <= remainingWidth) {
+                    textFromEnd.addAll(0, targetText)
+                    realRightIndex -= 1
+                  }
                 } else {
                   return@run
                 }
               }
             }
+
             textFromStart.joinToString(separator = "") + ellipsisText + textFromEnd
               .joinToString(
                 separator = ""
