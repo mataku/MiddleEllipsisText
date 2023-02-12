@@ -5,8 +5,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
@@ -43,6 +45,24 @@ class MiddleEllipsisTextTest {
   }
 
   @Test
+  fun layout_notAppliedEllipsis_multipleCodePointsEmoji() {
+    val flagEmoji = "\uD83C\uDDE7\uD83C\uDDEB"
+    val emojis = flagEmoji.repeat(9)
+    composeTestRule.setContent {
+      MaterialTheme {
+        Surface {
+          TestScreen(
+            input = emojis,
+          )
+        }
+      }
+    }
+    composeTestRule.onNodeWithText(emojis)
+      .assertIsDisplayed()
+  }
+
+
+  @Test
   fun layout_appliedEllipsis() {
     composeTestRule.setContent {
       MaterialTheme {
@@ -51,6 +71,8 @@ class MiddleEllipsisTextTest {
         }
       }
     }
+    val bitmap = composeTestRule.onRoot().captureToImage().asAndroidBitmap()
+    TestHelper.saveScreenshot("layout_appliedEllipsis", bitmap)
     composeTestRule.onNodeWithText("sooooooooooooooooooo...oooooooooooooongtext")
       .assertIsDisplayed()
   }
@@ -99,9 +121,49 @@ class MiddleEllipsisTextTest {
         }
       }
     }
+    val bitmap = composeTestRule.onRoot().captureToImage().asAndroidBitmap()
+    TestHelper.saveScreenshot("basic_emoji", bitmap)
     composeTestRule.onNodeWithText(
       "\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00...\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00"
     )
+      .assertIsDisplayed()
+  }
+
+  @Test
+  fun layout_appliedEllipsis_multipleCodePointsEmoji() {
+    val flagEmoji = "\uD83C\uDDE7\uD83C\uDDEB"
+    composeTestRule.setContent {
+      MaterialTheme {
+        Surface {
+          val emojis = flagEmoji.repeat(20)
+
+          TestScreen(
+            input = emojis,
+          )
+        }
+      }
+    }
+    val bitmap = composeTestRule.onRoot().captureToImage().asAndroidBitmap()
+    TestHelper.saveScreenshot("complex_emoji", bitmap)
+    composeTestRule.onNodeWithText(
+      "${flagEmoji.repeat(9)}...${flagEmoji.repeat(9)}"
+    )
+      .assertIsDisplayed()
+  }
+
+  @Test
+  fun layout_appliedEllipsis_containsMultibyteStringAndEmoji() {
+    val flagEmoji = "\uD83C\uDDE7\uD83C\uDDEB"
+    composeTestRule.setContent {
+      MaterialTheme {
+        Surface {
+          TestScreen(
+            input = "soooooooooooooooooooooooloooooooooooooooooooongtextツツツツツ${flagEmoji}",
+          )
+        }
+      }
+    }
+    composeTestRule.onNodeWithText("soooooooooooooooooo...oooongtextツツツツツ${flagEmoji}")
       .assertIsDisplayed()
   }
 }
