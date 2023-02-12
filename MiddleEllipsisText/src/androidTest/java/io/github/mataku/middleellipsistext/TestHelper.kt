@@ -1,7 +1,6 @@
 package io.github.mataku.middleellipsistext
 
 import android.graphics.Bitmap
-import androidx.test.platform.app.InstrumentationRegistry
 import java.io.FileOutputStream
 
 object TestHelper {
@@ -10,7 +9,7 @@ object TestHelper {
       return
     }
 
-    val path = InstrumentationRegistry.getInstrumentation().targetContext.filesDir.canonicalPath
+    val path = "/sdcard"
     FileOutputStream("$path/$filename.png").use { out ->
       bmp.compress(Bitmap.CompressFormat.PNG, 100, out)
     }
