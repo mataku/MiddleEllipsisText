@@ -122,11 +122,15 @@ fun MiddleEllipsisText(
                   val targetText = mutableListOf<Char>()
                   // multiple code points handling (e.g. flag emoji)
                   repeat(remainingTargetCodePoints) {
-                    targetText.add(text[leftPoint])
-                    val leftTextBoundingBoxWidth =
-                      textLayoutResult!!.getBoundingBox(leftPoint).width
-                    leftTextWidth += leftTextBoundingBoxWidth
-                    leftPoint += 1
+                    kotlin.runCatching {
+                      targetText.add(text[leftPoint])
+                      val leftTextBoundingBoxWidth =
+                        textLayoutResult!!.getBoundingBox(leftPoint).width
+                      leftTextWidth += leftTextBoundingBoxWidth
+                      leftPoint += 1
+                    }.onFailure {
+                      return@run
+                    }
                   }
                   if (leftTextWidth + rightTextWidth <= remainingWidth) {
                     textFromStart.addAll(targetText)
@@ -138,11 +142,15 @@ fun MiddleEllipsisText(
                   val targetText = mutableListOf<Char>()
                   // multiple code points handling (e.g. flag emoji)
                   repeat(remainingTargetCodePoints) {
-                    targetText.add(0, text[rightPoint])
-                    val rightTextBoundingBoxWidth =
-                      textLayoutResult!!.getBoundingBox(rightPoint).width
-                    rightTextWidth += rightTextBoundingBoxWidth
-                    rightPoint -= 1
+                    kotlin.runCatching {
+                      targetText.add(0, text[rightPoint])
+                      val rightTextBoundingBoxWidth =
+                        textLayoutResult!!.getBoundingBox(rightPoint).width
+                      rightTextWidth += rightTextBoundingBoxWidth
+                      rightPoint -= 1
+                    }.onFailure {
+                      return@run
+                    }
                   }
                   if (leftTextWidth + rightTextWidth <= remainingWidth) {
                     textFromEnd.addAll(0, targetText)
