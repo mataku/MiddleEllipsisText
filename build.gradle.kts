@@ -2,8 +2,8 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-  id("com.android.application") version "7.4.0" apply false
-  id("com.android.library") version "7.4.0" apply false
+  id("com.android.application") version "7.4.1" apply false
+  id("com.android.library") version "7.4.1" apply false
   id("org.jetbrains.kotlin.android") version "1.7.10" apply false
   id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }

@@ -9,10 +9,10 @@ plugins {
 android {
   testOptions {
     managedDevices {
-      devices.maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api31").apply {
+      devices.maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api30").apply {
         device = "Pixel 4"
-        apiLevel = 31
-        systemImageSource = "aosp"
+        apiLevel = 30
+        systemImageSource = "aosp-atd"
       }
     }
   }
@@ -26,6 +26,7 @@ dependencies {
   implementation(libs.compose.runtime)
   implementation(libs.compose.foundation)
   implementation(libs.compose.material)
+  implementation(libs.icu4j)
 
   androidTestImplementation(libs.compose.ui.test.junit4)
   debugImplementation(libs.compose.ui.test.manifest)

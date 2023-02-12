@@ -13,7 +13,7 @@ jobs:
   instrumentation_test:
     # ubuntu-latest is enough, but needed for Android Emulator: https://issuetracker.google.com/issues/193118030
     runs-on: macos-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
         uses: android-actions/setup-android@v2
       - name: Run layout tests
         run: |
-          ./gradlew cleanManagedDevices --unused-only && ./gradlew pixel4Api31DebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+          ./gradlew cleanManagedDevices --unused-only && ./gradlew pixel4Api30DebugAndroidTest  -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
         env:
           OSSRH_USERNAME: username
           OSSRH_PASSWORD: password
