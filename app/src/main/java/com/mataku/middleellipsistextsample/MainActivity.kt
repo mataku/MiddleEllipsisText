@@ -52,6 +52,19 @@ private fun MainContent() {
 
     Spacer(modifier = Modifier.height(32.dp))
 
+    Text(
+      text = "ellipsis applied with horizontal margin",
+      fontSize = 20.sp,
+      fontWeight = FontWeight.Bold
+    )
+
+    MiddleEllipsisText(
+      text = "soooooooooooooooooooooooloooooooooooooooooooongtext",
+      modifier = Modifier.padding(horizontal = 16.dp)
+    )
+
+    Spacer(modifier = Modifier.height(32.dp))
+
     Text(text = "with multibyte string", fontSize = 20.sp, fontWeight = FontWeight.Bold)
 
     Spacer(modifier = Modifier.height(4.dp))
