@@ -27,6 +27,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
         androidConfiguration()
         kotlinConfiguration()
         composeConfiguration(libs)
+        namespace = "com.mataku.middleellipsistextsample"
       }
     }
   }
