@@ -26,7 +26,6 @@ dependencies {
   implementation(libs.compose.runtime)
   implementation(libs.compose.foundation)
   implementation(libs.compose.material)
-  implementation(libs.icu4j)
 
   androidTestImplementation(libs.compose.ui.test.junit4)
   debugImplementation(libs.compose.ui.test.manifest)
