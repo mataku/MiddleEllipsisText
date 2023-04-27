@@ -1,5 +1,6 @@
 package io.github.mataku.middleellipsistext
 
+import android.icu.text.BreakIterator
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.TextUnit
-import com.ibm.icu.text.BreakIterator
 
 @Composable
 fun MiddleEllipsisText(

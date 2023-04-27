@@ -16,5 +16,3 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", ve
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-
-icu4j = { module = "com.ibm.icu:icu4j", version = "72.1" }
