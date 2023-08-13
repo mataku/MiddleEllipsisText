@@ -47,7 +47,7 @@ private fun MainContent() {
     Text(text = "ellipsis applied", fontSize = 20.sp, fontWeight = FontWeight.Bold)
 
     MiddleEllipsisText(
-      text = "soooooooooooooooooooooooloooooooooooooooooooongtext",
+      text = "soooooooooooooooooooooooooooooooooooooooooooloooooooooooooooooooongtext",
     )
 
     Spacer(modifier = Modifier.height(32.dp))
@@ -59,7 +59,7 @@ private fun MainContent() {
     )
 
     MiddleEllipsisText(
-      text = "soooooooooooooooooooooooloooooooooooooooooooongtext",
+      text = "sooooooooooooooooooooooooooooooooooooooooooooooloooooooooooooooooooongtext",
       modifier = Modifier.padding(horizontal = 16.dp)
     )
 
@@ -70,7 +70,7 @@ private fun MainContent() {
     Spacer(modifier = Modifier.height(4.dp))
 
     MiddleEllipsisText(
-      text = "soooooooooooooooooooooooloooooooooooooooooooongtextツツツツツツ",
+      text = "sooooooooooooooooooooooooooooooooooooooooooloooooooooooooooooooongtextツツツツツツ",
     )
 
     Spacer(modifier = Modifier.height(32.dp))
@@ -89,7 +89,7 @@ private fun MainContent() {
 
     Spacer(modifier = Modifier.height(4.dp))
 
-    val emojis2 = "\uD83D\uDE00".repeat(20)
+    val emojis2 = "\uD83D\uDE00".repeat(40)
 
     MiddleEllipsisText(
       text = emojis2,
@@ -100,7 +100,7 @@ private fun MainContent() {
 
     Spacer(modifier = Modifier.height(4.dp))
 
-    val emojis = "\uD83C\uDDE7\uD83C\uDDEB".repeat(20)
+    val emojis = "\uD83C\uDDE7\uD83C\uDDEB".repeat(40)
     MiddleEllipsisText(
       text = emojis,
     )

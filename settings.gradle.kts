@@ -27,5 +27,5 @@ dependencyResolutionManagement {
   }
 }
 rootProject.name = "MiddleEllipsisText"
-include(":app")
+include(":sample")
 include(":MiddleEllipsisText")
