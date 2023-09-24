@@ -6,9 +6,6 @@ import java.io.FileOutputStream
 
 object TestHelper {
   fun saveScreenshot(filename: String, bmp: Bitmap) {
-//    if (System.getenv("CI") != null) {
-//      return
-//    }
 
     val path = InstrumentationRegistry.getInstrumentation().targetContext.filesDir.canonicalPath
     FileOutputStream("$path/$filename.png").use { out ->
