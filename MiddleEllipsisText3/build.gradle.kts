@@ -39,3 +39,48 @@ val androidSourcesJar = tasks.register<Jar>("androidSourcesJar") {
 artifacts {
   archives(androidSourcesJar)
 }
+
+val libName = "middle-ellipsis-text3"
+
+afterEvaluate {
+  publishing {
+    publications {
+      create<MavenPublication>("maven") {
+        groupId = "io.github.mataku"
+        artifactId = libName
+        version = "0.0.5"
+        if (project.plugins.hasPlugin("com.android.library")) {
+          from(components["release"])
+        } else {
+          from(components["java"])
+        }
+        artifact(androidSourcesJar)
+        pom {
+          name.set(libName)
+          description.set("Jetpack Compose Component with ellipsis in the middle of Material3 text")
+          url.set("https://github.com/mataku/MiddleEllipsisText")
+
+          licenses {
+            license {
+              name.set("Apache License 2.0")
+              url.set("https://github.com/mataku/MiddleEllipsisText/blob/develop/license/LICENSE.txt")
+            }
+          }
+          developers {
+            developer {
+              id.set("mataku")
+              name.set("mataku")
+              url.set("https://github.com/mataku")
+            }
+          }
+          scm {
+            connection.set("scm:git:github.com/mataku/MiddleEllipsisText")
+            developerConnection.set("scm:git:ssh://github.com/mataku/MiddleEllipsisText")
+            url.set("https://github.com/mataku/MiddleEllipsisText")
+          }
+        }
+      }
+    }
+  }
+}
+
