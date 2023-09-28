@@ -22,6 +22,10 @@ pluginManagement {
 
 // {module}/build.gradle(.kts)
 implementation "io.github.mataku:middle-ellipsis-text:${latestVersion}"
+
+// Material 3 Text
+// implementation "io.github.mataku:middle-ellipsis-text3:${latestVersion}"
+
 ```
 
 ## Usage
