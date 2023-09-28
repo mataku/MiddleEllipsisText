@@ -25,6 +25,10 @@ jobs:
           distribution: zulu
           java-version: 11
       - name: Build
-        run: ./gradlew MiddleEllipsisText:assembleRelease
+        run: |
+          ./gradlew MiddleEllipsisText:assembleRelease
+          ./gradlew MiddleEllipsisText3:assembleRelease
       - name: Publish to Sonatype
-        run: ./gradlew MiddleEllipsisText:publishMavenPublicationToSonatypeRepository
+        run: |
+          ./gradlew MiddleEllipsisText:publishMavenPublicationToSonatypeRepository
+          ./gradlew MiddleEllipsisText3:publishMavenPublicationToSonatypeRepository

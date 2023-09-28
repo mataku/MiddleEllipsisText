@@ -29,3 +29,4 @@ dependencyResolutionManagement {
 rootProject.name = "MiddleEllipsisText"
 include(":sample")
 include(":MiddleEllipsisText")
+include(":MiddleEllipsisText3")

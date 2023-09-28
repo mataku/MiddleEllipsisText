@@ -1,4 +1,4 @@
-package io.github.mataku.middleellipsistext
+package io.github.mataku
 
 import android.graphics.Bitmap
 import androidx.test.platform.app.InstrumentationRegistry

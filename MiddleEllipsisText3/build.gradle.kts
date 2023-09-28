@@ -7,6 +7,8 @@ plugins {
 }
 
 android {
+  namespace = "com.mataku.middleellipsistext3"
+
   testOptions {
     managedDevices {
       devices.maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api30").apply {
@@ -16,8 +18,6 @@ android {
       }
     }
   }
-
-  namespace = "io.github.mataku.middleellipsistext"
 }
 
 dependencies {
@@ -25,7 +25,7 @@ dependencies {
   implementation(libs.compose.ui)
   implementation(libs.compose.runtime)
   implementation(libs.compose.foundation)
-  implementation(libs.compose.material)
+  implementation(libs.compose.material3)
 
   androidTestImplementation(libs.compose.ui.test.junit4)
   debugImplementation(libs.compose.ui.test.manifest)
@@ -40,18 +40,7 @@ artifacts {
   archives(androidSourcesJar)
 }
 
-ext["signing.password"] = ""
-
-signing {
-  useInMemoryPgpKeys(
-    rootProject.extra["signing.keyId"] as String,
-    rootProject.extra["signing.key"] as String,
-    "",
-  )
-  sign(publishing.publications)
-}
-
-val libName = "middle-ellipsis-text"
+val libName = "middle-ellipsis-text3"
 
 afterEvaluate {
   publishing {
@@ -68,7 +57,7 @@ afterEvaluate {
         artifact(androidSourcesJar)
         pom {
           name.set(libName)
-          description.set("Jetpack Compose Component with ellipsis in the middle of text")
+          description.set("Jetpack Compose Component with ellipsis in the middle of Material3 text")
           url.set("https://github.com/mataku/MiddleEllipsisText")
 
           licenses {
@@ -94,3 +83,4 @@ afterEvaluate {
     }
   }
 }
+
