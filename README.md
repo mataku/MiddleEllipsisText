@@ -44,4 +44,6 @@ details: https://github.com/mataku/MiddleEllipsisText/blob/develop/MiddleEllipsi
 
 ## Screenshot
 
-<img src="./screenshot/demo.png" width=360 />
+| iOS | Android |
+| :--: | :--: |
+| <img src="./screenshot/demo_ios.png" width=360 /> | <img src="./screenshot/demo.png" width=360 /> |
