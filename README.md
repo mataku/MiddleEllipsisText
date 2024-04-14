@@ -30,7 +30,7 @@ implementation "io.github.mataku:middle-ellipsis-text:${latestVersion}"
 
 ### Compose Multiplatform
 
-MiddleEllipsisText and MiddleEllipsisText support Compose Multiplatform experimentally and only available for iOS (and Android).
+MiddleEllipsisText and MiddleEllipsisText3 support Compose Multiplatform experimentally and only available for iOS (and Android).
 
 ```kotlin
 sourceSets {
