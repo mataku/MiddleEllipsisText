@@ -1,9 +1,7 @@
-name: Publish
+name: Snapshot Publish
 
 on:
   workflow_dispatch:
-  # release:
-  #   types: [released]
 
 env:
   OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
@@ -14,8 +12,8 @@ env:
   SONATYPE_STAGING_PROFILE_ID: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
 
 jobs:
-  publish:
-    name: Build and publish
+  publish_snapshot:
+    name: Build and publish to snapshpt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
