@@ -82,14 +82,36 @@ signing {
 }
 
 val libName = "middle-ellipsis-text3"
-group = "io.github.mataku"
-version = "1.0.1-SNAPSHOT"
+group = rootProject.properties["groupId"] as String
+version = rootProject.properties["version"] as String
 
 afterEvaluate {
   publishing {
-    publications.forEach {
-      val publication = it as? MavenPublication ?: return@forEach
-      with(publication) {
+    repositories {
+      maven {
+        name = "Snapshot"
+        val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        url = snapshotsRepoUrl
+        credentials {
+          username = System.getenv("OSSRH_USERNAME") ?: rootProject.extra["ossrhUsername"] as String
+          password = System.getenv("OSSRH_PASSWORD") ?: rootProject.extra["ossrhPassword"] as String
+        }
+      }
+
+      maven {
+        name = "Release"
+        val releasesRepoUrl =
+          uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+        url = releasesRepoUrl
+        credentials {
+          username = System.getenv("OSSRH_USERNAME") ?: rootProject.extra["ossrhUsername"] as String
+          password = System.getenv("OSSRH_PASSWORD") ?: rootProject.extra["ossrhPassword"] as String
+        }
+      }
+    }
+    publications {
+      withType<MavenPublication> {
+        val publication = this
         pom {
           artifactId = if (publication.name == "kotlinMultiplatform") {
             libName
