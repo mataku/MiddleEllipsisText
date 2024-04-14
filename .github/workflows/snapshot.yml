@@ -28,5 +28,5 @@ jobs:
           ./gradlew MiddleEllipsisText3:assembleRelease
       - name: Publish to Sonatype
         run: |
-          ./gradlew MiddleEllipsisText:publishMavenPublicationToSnapshotRepository
-          ./gradlew MiddleEllipsisText3:publishMavenPublicationToSnapshotRepository
+          ./gradlew MiddleEllipsisText:publishAllPublicationsToSnapshotRepository
+          ./gradlew MiddleEllipsisText3:publishAllPublicationsToSnapshotRepository
