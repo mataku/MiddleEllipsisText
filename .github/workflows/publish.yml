@@ -23,12 +23,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 17
       - name: Build
         run: |
           ./gradlew MiddleEllipsisText:assembleRelease
           ./gradlew MiddleEllipsisText3:assembleRelease
       - name: Publish to Sonatype
         run: |
-          ./gradlew MiddleEllipsisText:publishMavenPublicationToSonatypeRepository
-          ./gradlew MiddleEllipsisText3:publishMavenPublicationToSonatypeRepository
+          ./gradlew MiddleEllipsisText:publishMavenPublicationToReleaseRepository
+          ./gradlew MiddleEllipsisText3:publishMavenPublicationToReleaseRepository

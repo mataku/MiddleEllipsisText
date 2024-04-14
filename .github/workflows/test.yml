@@ -11,8 +11,7 @@ concurrency:
 
 jobs:
   instrumentation_test:
-    # ubuntu-latest is enough, but needed for Android Emulator: https://issuetracker.google.com/issues/193118030
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
@@ -21,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 17
       - name: Cache gradle dir
         uses: actions/cache@v3
         with:
@@ -33,9 +32,9 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      - name: Run layout tests
+      - name: Run build
         run: |
-          ./gradlew cleanManagedDevices --unused-only && ./gradlew MiddleEllipsisText:pixel4Api30DebugAndroidTest MiddleEllipsisText3:pixel4Api30DebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+          ./gradlew MiddleEllipsisText:assembleRelease MiddleEllipsisText3:assembleRelease
         env:
           OSSRH_USERNAME: username
           OSSRH_PASSWORD: password

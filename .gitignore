@@ -37,6 +37,8 @@ local.properties
 .idea/inspectionProfiles/
 .idea/androidTestResultsUserPreferences.xml
 .idea/kotlinc.xml
+.idea/deploymentTargetDropDown.xml
+.idea/migrations.xml
 
 *.iml
 .env
