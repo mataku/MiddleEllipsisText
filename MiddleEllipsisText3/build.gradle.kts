@@ -1,22 +1,62 @@
 plugins {
-  id("middleellipsistext.android.library")
-  id("middleellipsistext.android.compose")
-  id("middleellipsistext.android.test")
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.compose.jb)
   id("maven-publish")
   signing
 }
 
-android {
-  namespace = "com.mataku.middleellipsistext3"
-
-  testOptions {
-    managedDevices {
-      devices.maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel4Api30").apply {
-        device = "Pixel 4"
-        apiLevel = 30
-        systemImageSource = "aosp-atd"
+kotlin {
+  androidTarget {
+    publishLibraryVariants("release")
+    compilations.all {
+      kotlinOptions {
+        jvmTarget = "11"
       }
     }
+  }
+  iosX64()
+  iosArm64()
+  iosSimulatorArm64()
+
+  applyDefaultHierarchyTemplate()
+
+  sourceSets {
+    val commonMain by getting {
+      dependencies {
+        implementation(compose.runtime)
+        implementation(compose.foundation)
+        implementation(compose.material3)
+        implementation(compose.ui)
+      }
+    }
+
+    val commonTest by getting {
+      dependencies {
+        implementation(kotlin("test"))
+        implementation(compose.runtime)
+        implementation(compose.foundation)
+        implementation(compose.material3)
+        implementation(compose.ui)
+      }
+    }
+  }
+}
+
+android {
+  namespace = "io.github.mataku.middleellipsistext3"
+  compileSdk = 34
+
+  defaultConfig {
+    minSdk = 24
+
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    consumerProguardFiles("consumer-rules.pro")
+  }
+
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
   }
 }
 
@@ -25,19 +65,9 @@ dependencies {
   implementation(libs.compose.ui)
   implementation(libs.compose.runtime)
   implementation(libs.compose.foundation)
-  implementation(libs.compose.material3)
+  implementation(libs.compose.material)
 
-  androidTestImplementation(libs.compose.ui.test.junit4)
   debugImplementation(libs.compose.ui.test.manifest)
-}
-
-val androidSourcesJar = tasks.register<Jar>("androidSourcesJar") {
-  archiveClassifier.set("sources")
-  from("android.sourceSets.main.java.srcDirs")
-}
-
-artifacts {
-  archives(androidSourcesJar)
 }
 
 ext["signing.password"] = ""
@@ -52,23 +82,22 @@ signing {
 }
 
 val libName = "middle-ellipsis-text3"
+group = "io.github.mataku"
+version = "1.0.1-SNAPSHOT"
 
 afterEvaluate {
   publishing {
-    publications {
-      create<MavenPublication>("maven") {
-        groupId = "io.github.mataku"
-        artifactId = libName
-        version = "1.0.0"
-        if (project.plugins.hasPlugin("com.android.library")) {
-          from(components["release"])
-        } else {
-          from(components["java"])
-        }
-        artifact(androidSourcesJar)
+    publications.forEach {
+      val publication = it as? MavenPublication ?: return@forEach
+      with(publication) {
         pom {
+          artifactId = if (publication.name == "kotlinMultiplatform") {
+            libName
+          } else {
+            "${libName}-${publication.name}"
+          }
           name.set(libName)
-          description.set("Jetpack Compose Component with ellipsis in the middle of Material3 text")
+          description.set("Jetpack Compose Component with ellipsis in the middle of text")
           url.set("https://github.com/mataku/MiddleEllipsisText")
 
           licenses {
@@ -95,3 +124,16 @@ afterEvaluate {
   }
 }
 
+tasks.withType<PublishToMavenLocal> {
+  dependsOn(":MiddleEllipsisText3:signIosX64Publication")
+  dependsOn(":MiddleEllipsisText3:signIosArm64Publication")
+  dependsOn(":MiddleEllipsisText3:signIosSimulatorArm64Publication")
+  dependsOn(":MiddleEllipsisText3:signKotlinMultiplatformPublication")
+}
+
+tasks.withType<PublishToMavenRepository> {
+  dependsOn(":MiddleEllipsisText3:signIosX64Publication")
+  dependsOn(":MiddleEllipsisText3:signIosArm64Publication")
+  dependsOn(":MiddleEllipsisText3:signIosSimulatorArm64Publication")
+  dependsOn(":MiddleEllipsisText3:signKotlinMultiplatformPublication")
+}
