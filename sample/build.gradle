@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
   implementation project(":MiddleEllipsisText")
+  implementation project(":MiddleEllipsisText3")
 
   implementation platform(libs.compose.bom)
   implementation sampleLibs.core.ktx
@@ -12,6 +13,7 @@ dependencies {
   implementation libs.compose.runtime
   implementation libs.compose.foundation
   implementation libs.compose.material
+  implementation libs.compose.material3
   implementation sampleLibs.activity.compose
   implementation sampleLibs.material
   debugImplementation sampleLibs.ui.tooling

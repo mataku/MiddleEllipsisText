@@ -23,6 +23,13 @@
       </intent-filter>
     </activity>
 
+    <activity
+      android:name=".material.MaterialActivity"
+      android:exported="false" />
+    <activity
+      android:name=".material3.Material3Activity"
+      android:exported="false" />
+
   </application>
 
 </manifest>
