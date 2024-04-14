@@ -7,10 +7,11 @@ pluginManagement {
   }
 }
 dependencyResolutionManagement {
-  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
   repositories {
     google()
     mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
   }
   versionCatalogs {
     maybeCreate("sampleLibs").apply {
@@ -30,3 +31,4 @@ rootProject.name = "MiddleEllipsisText"
 include(":sample")
 include(":MiddleEllipsisText")
 include(":MiddleEllipsisText3")
+// include(":shared")

@@ -3,7 +3,7 @@ package ext
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.artifacts.VersionCatalog
 
-fun CommonExtension<*, *, *, *>.composeConfiguration(
+fun CommonExtension<*, *, *, *, *>.composeConfiguration(
   libs: VersionCatalog
 ) {
   buildFeatures {

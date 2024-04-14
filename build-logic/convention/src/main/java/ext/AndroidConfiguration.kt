@@ -4,8 +4,8 @@ import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
-fun CommonExtension<*, *, *, *>.androidConfiguration() {
-  compileSdk = 33
+fun CommonExtension<*, *, *, *, *>.androidConfiguration() {
+  compileSdk = 34
 
   if (this is LibraryExtension) {
     defaultConfig {

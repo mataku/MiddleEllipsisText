@@ -7,6 +7,10 @@ java {
   targetCompatibility = JavaVersion.VERSION_11
 }
 
+kotlin {
+  jvmToolchain(11)
+}
+
 dependencies {
   compileOnly(libs.android.gradle.plugin)
   compileOnly(libs.kotlin.gradle.plugin)
