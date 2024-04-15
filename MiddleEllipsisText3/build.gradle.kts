@@ -1,26 +1,8 @@
 plugins {
-  alias(libs.plugins.kotlin.multiplatform)
-  alias(libs.plugins.android.library)
-  alias(libs.plugins.compose.jb)
-  id("maven-publish")
-  signing
+  id("middleellipsistext.android.library")
 }
 
 kotlin {
-  androidTarget {
-    publishLibraryVariants("release")
-    compilations.all {
-      kotlinOptions {
-        jvmTarget = "11"
-      }
-    }
-  }
-  iosX64()
-  iosArm64()
-  iosSimulatorArm64()
-
-  applyDefaultHierarchyTemplate()
-
   sourceSets {
     val commonMain by getting {
       dependencies {
@@ -43,23 +25,6 @@ kotlin {
   }
 }
 
-android {
-  namespace = "io.github.mataku.middleellipsistext3"
-  compileSdk = 34
-
-  defaultConfig {
-    minSdk = 24
-
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    consumerProguardFiles("consumer-rules.pro")
-  }
-
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
-}
-
 dependencies {
   implementation(platform(libs.compose.bom))
   implementation(libs.compose.ui)
@@ -68,94 +33,4 @@ dependencies {
   implementation(libs.compose.material)
 
   debugImplementation(libs.compose.ui.test.manifest)
-}
-
-ext["signing.password"] = ""
-
-signing {
-  useInMemoryPgpKeys(
-    rootProject.extra["signing.keyId"] as String,
-    rootProject.extra["signing.key"] as String,
-    "",
-  )
-  sign(publishing.publications)
-}
-
-val libName = "middle-ellipsis-text3"
-group = rootProject.properties["groupId"] as String
-version = rootProject.properties["version"] as String
-
-afterEvaluate {
-  publishing {
-    repositories {
-      maven {
-        name = "Snapshot"
-        val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-        url = snapshotsRepoUrl
-        credentials {
-          username = System.getenv("OSSRH_USERNAME") ?: rootProject.extra["ossrhUsername"] as String
-          password = System.getenv("OSSRH_PASSWORD") ?: rootProject.extra["ossrhPassword"] as String
-        }
-      }
-
-      maven {
-        name = "Release"
-        val releasesRepoUrl =
-          uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-        url = releasesRepoUrl
-        credentials {
-          username = System.getenv("OSSRH_USERNAME") ?: rootProject.extra["ossrhUsername"] as String
-          password = System.getenv("OSSRH_PASSWORD") ?: rootProject.extra["ossrhPassword"] as String
-        }
-      }
-    }
-    publications {
-      withType<MavenPublication> {
-        val publication = this
-        pom {
-          artifactId = if (publication.name == "kotlinMultiplatform") {
-            libName
-          } else {
-            "${libName}-${publication.name}"
-          }
-          name.set(libName)
-          description.set("Jetpack Compose Component with ellipsis in the middle of text")
-          url.set("https://github.com/mataku/MiddleEllipsisText")
-
-          licenses {
-            license {
-              name.set("Apache License 2.0")
-              url.set("https://github.com/mataku/MiddleEllipsisText/blob/develop/license/LICENSE.txt")
-            }
-          }
-          developers {
-            developer {
-              id.set("mataku")
-              name.set("mataku")
-              url.set("https://github.com/mataku")
-            }
-          }
-          scm {
-            connection.set("scm:git:github.com/mataku/MiddleEllipsisText")
-            developerConnection.set("scm:git:ssh://github.com/mataku/MiddleEllipsisText")
-            url.set("https://github.com/mataku/MiddleEllipsisText")
-          }
-        }
-      }
-    }
-  }
-}
-
-tasks.withType<PublishToMavenLocal> {
-  dependsOn(":MiddleEllipsisText3:signIosX64Publication")
-  dependsOn(":MiddleEllipsisText3:signIosArm64Publication")
-  dependsOn(":MiddleEllipsisText3:signIosSimulatorArm64Publication")
-  dependsOn(":MiddleEllipsisText3:signKotlinMultiplatformPublication")
-}
-
-tasks.withType<PublishToMavenRepository> {
-  dependsOn(":MiddleEllipsisText3:signIosX64Publication")
-  dependsOn(":MiddleEllipsisText3:signIosArm64Publication")
-  dependsOn(":MiddleEllipsisText3:signIosSimulatorArm64Publication")
-  dependsOn(":MiddleEllipsisText3:signKotlinMultiplatformPublication")
 }
