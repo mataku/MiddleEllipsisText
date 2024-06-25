@@ -20,8 +20,8 @@ fun Project.signingConfiguration() {
   }
   extensions.configure<SigningExtension>() {
     useInMemoryPgpKeys(
-      rootProject.extra["signing.keyId"] as String,
-      rootProject.extra["signing.key"] as String,
+      System.getenv("SIGNING_KEY_ID") ?: rootProject.extra["signing.keyId"] as String,
+      System.getenv("SIGNING_KEY") ?: rootProject.extra["signing.key"] as String,
       "",
     )
     extensions.configure<PublishingExtension> {
