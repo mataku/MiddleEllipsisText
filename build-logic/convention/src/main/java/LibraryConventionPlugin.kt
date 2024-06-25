@@ -27,13 +27,14 @@ class LibraryConventionPlugin : Plugin<Project> {
           listOf(
             iosX64(),
             iosArm64(),
-            iosSimulatorArm64()
+            iosSimulatorArm64(),
           ).forEach {
             it.binaries.framework {
               baseName = target.publishingLibName()
               isStatic = true
             }
           }
+          jvm("desktop")
 
           applyDefaultHierarchyTemplate()
         }
