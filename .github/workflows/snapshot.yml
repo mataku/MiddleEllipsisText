@@ -2,6 +2,11 @@ name: Snapshot Publish
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch"
+        required: true
+        default: "develop"
 
 env:
   OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
@@ -16,7 +21,9 @@ jobs:
     name: Build and publish to snapshpt
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
