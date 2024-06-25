@@ -6,6 +6,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenLocal
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.withType
@@ -65,6 +66,11 @@ fun Project.signingConfiguration() {
       publications.withType<MavenPublication>() {
         val publication = this
         val gitHubUrl = "https://github.com/mataku/MiddleEllipsisText"
+        val javadocJar = tasks.register("${publication.name}JavadocJar", Jar::class.java) {
+          archiveClassifier.set("javadoc")
+          archiveBaseName.set("${archiveBaseName.get()}-${publication.name}")
+        }
+        artifact(javadocJar)
         pom {
           artifactId = if (publication.name == "kotlinMultiplatform") {
             project.publishingLibName()
