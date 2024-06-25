@@ -54,10 +54,13 @@ kotlin {
       implementation(compose.runtime)
       implementation(compose.foundation)
       implementation(compose.material)
+      implementation(compose.material3)
       implementation(compose.ui)
       implementation(compose.components.resources)
       implementation(compose.components.uiToolingPreview)
       implementation("io.github.mataku:middle-ellipsis-text:1.2.0-SNAPSHOT")
+      implementation("io.github.mataku:middle-ellipsis-text3:1.2.0-SNAPSHOT")
+
     }
     desktopMain.dependencies {
       implementation(compose.desktop.currentOs)
