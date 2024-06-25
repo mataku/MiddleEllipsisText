@@ -41,6 +41,7 @@ local.properties
 .idea/migrations.xml
 .idea/artifacts/
 .idea/other.xml
+.idea/deploymentTargetSelector.xml
 
 *.iml
 .env
