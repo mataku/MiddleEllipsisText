@@ -30,7 +30,6 @@ dependencies {
   implementation(libs.compose.ui)
   implementation(libs.compose.runtime)
   implementation(libs.compose.foundation)
-  implementation(libs.compose.material)
 
   debugImplementation(libs.compose.ui.test.manifest)
 }
