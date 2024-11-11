@@ -1,6 +1,6 @@
 # Recommendation
 
-From Compose 1.8.0(-alpha02), `MiddleEllipsis` TextOverflow has supported. It's better to use it if you don't need to customize ellipsis text or ellipsis text count.
+From Compose 1.8.0(-alpha02), `MiddleEllipsis` TextOverflow has supported. It might be easy to use it if you don't need to customize ellipsis text or ellipsis text count.
 
 ```kotlin
 Text(
